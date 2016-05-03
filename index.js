@@ -19,21 +19,11 @@ function rxfetch(url) {
 }
 
 function rxFacebook(url) {
-  //return Rx.Observable.fromPromise(fetch(url)).flatMap(function (json) {
   return rxfetch(url).flatMap(function (json) {
-    return Rx.Observable.fromArray(json.data);
+    var next = (json.paging && json.paging.next) ? rxFacebook(json.paging.next) : Rx.Observable.empty();
+    return Rx.Observable.concat(Rx.Observable.just(json), rxFacebook(json.paging.next));
   });
 }
-
-/*
-function rxFacebooks(url) {
-  return rxfetch(url).flatMap()
-    .flatMap(function (json) {
-      return Rx.Observable.fromArray(json.data);
-    });
-}
-*/
-
 
 //const program = require('commander');
 //program.option('--get [url]', 'get url');
@@ -43,6 +33,13 @@ function rxFacebooks(url) {
 const url = process.env.GET_URL;
 
 console.log(url);
+
 rxFacebook(url)
+  .take(3)
+  .flatMap(function (json) {
+    return Rx.Observable.fromArray(json.data);
+  })
   .map(function (user) { return user.id; })
-  .subscribe(function (v) { console.log(v); });
+  .subscribe(function (v) { console.log(v); }, function (e) {
+      console.log(e);
+  });
