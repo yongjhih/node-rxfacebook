@@ -1,0 +1,34 @@
+{
+  "name": "rxfacebook",
+  "version": "0.0.1",
+  "description": "Node Rx Facebook",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "package-json": "^2.3.1"
+  },
+  "devDependencies": {
+    "babel-core": "~5.8.12",
+    "babel-loader": "~5.3.0",
+    "babel-plugin-remove-proptypes": "~1.0.0",
+    "babel-polyfill": "^6.7.2",
+    "babel-runtime": "~5.8.25",
+    "history": "~1.9.1",
+    "immutable": "~3.7.5",
+    "immutable-devtools": "~0.0.4",
+    "jest-cli": "^0.7.1",
+    "js-beautify": "~1.5.0",
+    "marked": "^0.3.5",
+    "prismjs": "~1.2.0",
+    "isomorphic-fetch": "",
+    "es6-promise": "",
+    "commander": "^2.9.0",
+    "rx": ""
+  },
+  "scripts": {
+    "start": "node --harmony index.js"
+  },
+  "engines": {
+    "node": ">=4.3"
+  }
+}
