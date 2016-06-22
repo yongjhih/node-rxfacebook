@@ -21,7 +21,7 @@ function rxfetch(url) {
 function rxFacebook(url) {
   return rxfetch(url).flatMap(function (json) {
     var next = (json.paging && json.paging.next) ? rxFacebook(json.paging.next) : Rx.Observable.empty();
-    return Rx.Observable.concat(Rx.Observable.just(json), rxFacebook(json.paging.next));
+    return Rx.Observable.concat(Rx.Observable.just(json), next);
   });
 }
 
