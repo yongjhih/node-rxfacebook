@@ -35,7 +35,7 @@ node cli.js --members {group-id} --token |jq '. | select (.administrator != true
 ```js
 var RxFacebook = require('rx-facebook');
 var fb = new RxFacebook({ token: token });
-fb.member(groupId).subscribe(function (it) {
+fb.members(groupId).subscribe(function (it) {
   console.log(it.user.id);
 });
 ```
