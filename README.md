@@ -15,7 +15,7 @@
 
 ```js
 var RxFacebook = require('rx-facebook');
-RxFacebook.Members(groupId).subscribe(function (it) {
+RxFacebook.Members(groupId, token).subscribe(function (it) {
   console.log(it.user.id);
 });
 ```
@@ -28,6 +28,16 @@ node cli --members {group-id} --token | jq '. | select (.administrator != true)'
 
 ```sh
 node cli.js --members {group-id} --token |jq '. | select (.administrator != true) | .id' users.json > non-admin-users-id.json
+```
+
+## TODO
+
+```js
+var RxFacebook = require('rx-facebook');
+var fb = new RxFacebook({ token: token });
+fb.member(groupId).subscribe(function (it) {
+  console.log(it.user.id);
+});
 ```
 
 ## License
