@@ -1,45 +1,30 @@
-'use strict';
-//var request = require('request');
-//var request = require('request-promise');
+module.exports = RxFacebook;
+
 require('es6-promise').polyfill();
-require('isomorphic-fetch');
-//var rxfetch = require('rx-fetch');
-//var rxfetch = require('rxjs-fetch');
+var Fetch = require('isomorphic-fetch');
+
 var Rx = require('rx');
 
-function rxfetch(url) {
-  return Rx.Observable.create(function (observer) {
-    fetch(url).then(function (res) { return res.json(); })
-      .then(function (json) {
-        //console.log(json);
-        observer.onNext(json);
-        observer.onCompleted();
-      }).catch(observer.onError);
-  });
+function RxFacebook() {
 }
 
-function rxFacebook(url) {
-  return rxfetch(url).flatMap(function (json) {
-    var next = (json.paging && json.paging.next) ? rxFacebook(json.paging.next) : Rx.Observable.empty();
-    return Rx.Observable.concat(Rx.Observable.just(json), next);
-  });
+RxFacebook.Fetch = fetch;
+function fetch(url, options) {
+  return Rx.Observable.fromPromise(Fetch(url, options))
+      .flatMap(function (response) { return Rx.Observable.fromPromise(response.json()); })
+      .flatMap(function (json) {
+        return Rx.Observable.concat(Rx.Observable.just(json), (json.paging && json.paging.next) ? fetch(json.paging.next, options) : Rx.Observable.empty());
+      });
 }
 
-//const program = require('commander');
-//program.option('--get [url]', 'get url');
+RxFacebook.Members = members;
+function members(id, token) {
+  var url = (token) ? `https://graph.facebook.com/v2.6/${id}/members?access_token=${token}` : `https://graph.facebook.com/v2.6/${id}/members`;
+  return fetch(url).flatMap(function (json) { return Rx.Observable.from(json.data); });
+}
 
-//program.parse(process.argv);
-
-const url = process.env.GET_URL;
-
-console.log(url);
-
-rxFacebook(url)
-  .take(3)
-  .flatMap(function (json) {
-    return Rx.Observable.fromArray(json.data);
-  })
-  .map(function (user) { return user.id; })
-  .subscribe(function (v) { console.log(v); }, function (e) {
-      console.log(e);
-  });
+RxFacebook.Get = get;
+function get(id, token) {
+  var url = (token) ? `https://graph.facebook.com/v2.6/${id}?access_token=${token}` : `https://graph.facebook.com/v2.6/${id}`;
+  return fetch(url);
+}

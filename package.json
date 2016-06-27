@@ -1,33 +1,47 @@
 {
-  "name": "rxfacebook",
+  "name": "rx-facebook",
   "version": "0.0.1",
-  "description": "Node Rx Facebook",
+  "description": "Rx Facebook",
   "main": "index.js",
+  "author": "Andrew Chen",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yongjhih/rx-facebook.js.git"
+  },
+  "keywords": [
+    "facebook",
+    "rx"
+  ],
+  "bugs": {
+    "url": "https://github.com/yongjhih/rx-facebook.js/issues"
+  },
+  "homepage": "https://github.com/yongjhih/rx-facebook.js",
   "dependencies": {
     "package-json": "^2.3.1"
   },
   "devDependencies": {
-    "babel-core": "~5.8.12",
-    "babel-loader": "~5.3.0",
-    "babel-plugin-remove-proptypes": "~1.0.0",
-    "babel-polyfill": "^6.7.2",
-    "babel-runtime": "~5.8.25",
-    "history": "~1.9.1",
-    "immutable": "~3.7.5",
-    "immutable-devtools": "~0.0.4",
-    "jest-cli": "^0.7.1",
     "js-beautify": "~1.5.0",
-    "marked": "^0.3.5",
-    "prismjs": "~1.2.0",
+    "chai": "1.10.0",
+    "jshint": "2.8.0",
+    "mocha": "2.1.0",
+    "nock": "^0.56.0",
+    "lintspaces-cli": "^0.1.1",
+    "npm-prepublish": "^1.0.2",
+    "istanbul": "",
+    "coveralls": "^2.11.2",
     "isomorphic-fetch": "",
     "es6-promise": "",
-    "commander": "^2.9.0",
     "rx": ""
   },
   "scripts": {
-    "start": "node --harmony index.js"
+    "start": "node index.js",
+    "repos": "node repos.js",
+    "test": "mocha test/test.js",
+    "report": "istanbul cover _mocha -- -R spec test/test.js",
+    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec test/test.js && cat ./coverage/lcov.info | coveralls"
   },
+  "engineStrict": true,
   "engines": {
     "node": ">=4.3"
   }
