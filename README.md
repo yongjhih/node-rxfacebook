@@ -23,11 +23,11 @@ RxFacebook.Members(groupId, token).subscribe(function (it) {
 cli.js
 
 ```sh
-node cli --members {group-id} --token | jq '. | select (.administrator != true)' users.json > non-admin-users.json
+node cli --members {group-id} --token {token} | jq '. | select (.administrator != true)' users.json > non-admin-users.json
 ```
 
 ```sh
-node cli.js --members {group-id} --token |jq '. | select (.administrator != true) | .id' users.json > non-admin-users-id.json
+node cli.js --members {group-id} --token {token} | jq '. | select (.administrator != true) | .id' users.json > non-admin-users-id.json
 ```
 
 ## TODO
